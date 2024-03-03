@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Encryption & Decryption</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+  }
+  #inputText, #encryptedText, #decryptedText {
+    width: 80%;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #555;
+    border: 1px solid #777;
+    border-radius: 5px;
+    color: #fff;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+<h1>Text Encryption & Decryption</h1>
+<textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea><br>
+<button id="encryptBtn">Encrypt</button>
+<button id="decryptBtn">Decrypt</button><br>
+<textarea id="encryptedText" placeholder="Encrypted text will appear here..." readonly></textarea><br>
+<textarea id="decryptedText" placeholder="Decrypted text will appear here..." readonly></textarea>
+
+<script>
+  document.getElementById("encryptBtn").addEventListener("click", function() {
+    var inputText = document.getElementById("inputText").value;
+    var encryptedText = "";
+    for (var i = 0; i < inputText.length; i++) {
+      var char = inputText[i];
+      if (char >= 'a' && char <= 'z') {
+        encryptedText += String.fromCharCode((char.charCodeAt(0) - 97 + 1) % 26 + 97);
+      } else if (char >= 'A' && char <= 'Z') {
+        encryptedText += String.fromCharCode((char.charCodeAt(0) - 65 + 1) % 26 + 65);
+      } else if (char >= '0' && char <= '9') {
+        if (char === '9') {
+          encryptedText += '0';
+        } else {
+          encryptedText += String.fromCharCode(char.charCodeAt(0) + 1);
+        }
+      } else {
+        encryptedText += char;
+      }
+    }
+    document.getElementById("encryptedText").value = encryptedText;
+  });
+
+  document.getElementById("decryptBtn").addEventListener("click", function() {
+    var encryptedText = document.getElementById("inputText").value;
+    var decryptedText = "";
+    for (var i = 0; i < encryptedText.length; i++) {
+      var char = encryptedText[i];
+      if (char >= 'a' && char <= 'z') {
+        decryptedText += String.fromCharCode((char.charCodeAt(0) - 97 - 1 + 26) % 26 + 97);
+      } else if (char >= 'A' && char <= 'Z') {
+        decryptedText += String.fromCharCode((char.charCodeAt(0) - 65 - 1 + 26) % 26 + 65);
+      } else if (char >= '0' && char <= '9') {
+        if (char === '0') {
+          decryptedText += '9';
+        } else {
+          decryptedText += String.fromCharCode(char.charCodeAt(0) - 1);
+        }
+      } else {
+        decryptedText += char;
+      }
+    }
+    document.getElementById("decryptedText").value = decryptedText;
+  });
+</script>
+</body>
+</html>
